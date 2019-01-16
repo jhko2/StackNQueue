@@ -1,25 +1,25 @@
-/*#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include<string.h>
 
-typedef struct Node //³ëµå Á¤ÀÇ
+typedef struct Node //ë…¸ë“œ ì •ì˜
 {
 	int data;
 	struct Node *next;
 	struct Node *prev;
 }Node;
 
-typedef struct Stack //Stack ±¸Á¶Ã¼ Á¤ÀÇ
+typedef struct Stack //Stack êµ¬ì¡°ì²´ ì •ì˜
 {
-	Node *top;    //¸Ç ¾Õ ³ëµå(°¡Àå ÃÖ±Ù¿¡ »ý¼ºÇÑ ³ëµå)
+	Node *top;    //ë§¨ ì•ž ë…¸ë“œ(ê°€ìž¥ ìµœê·¼ì— ìƒì„±í•œ ë…¸ë“œ)
 	Node *back;
 	int size;
 }Stack;
 
-//----------------------------------------------------------ÇÔ¼ö
-void InitStack(Stack *stack) //½ºÅÃ ÃÊ±âÈ­
+//----------------------------------------------------------í•¨ìˆ˜
+void InitStack(Stack *stack) //ìŠ¤íƒ ì´ˆê¸°í™”
 {
-	stack->top = NULL; //½ºÅÃ ÃÊ±âÈ­¿¡¼­´Â topÀ» NULL·Î ¼³Á¤
+	stack->top = NULL; //ìŠ¤íƒ ì´ˆê¸°í™”ì—ì„œëŠ” topì„ NULLë¡œ ì„¤ì •
 	stack->back = NULL;
 	stack->size = 0;
 }
@@ -27,12 +27,12 @@ void printSize(Stack *stack)
 {
 	printf("%d\n", stack->size);
 }
-int IsEmpty(Stack *stack) //½ºÅÃ ºñ¾îÀÖ´ÂÁöÈ®ÀÎ
+int IsEmpty(Stack *stack) //ìŠ¤íƒ ë¹„ì–´ìžˆëŠ”ì§€í™•ì¸
 {
 	if (stack->top == NULL)
 		return 1;
 	else
-		return 0;    //topÀÌ NULLÀÌ¸é ºó »óÅÂ    
+		return 0;    //topì´ NULLì´ë©´ ë¹ˆ ìƒíƒœ    
 }
 void printFront(Stack *stack)
 {
@@ -50,8 +50,8 @@ void printBack(Stack *stack)
 }
 void Push(Stack *stack, int data)
 {
-	Node *now = (Node *)malloc(sizeof(Node)); //³ëµå »ý¼º
-	now->data = data;//µ¥ÀÌÅÍ ¼³Á¤
+	Node *now = (Node *)malloc(sizeof(Node)); //ë…¸ë“œ ìƒì„±
+	now->data = data;//ë°ì´í„° ì„¤ì •
 
 	if (IsEmpty(stack))
 	{
@@ -60,14 +60,14 @@ void Push(Stack *stack, int data)
 	}
 	else 
 	{
-		now->next = stack->back;//nowÀÇ next¸µÅ©¸¦ ÇöÀç backÀ¸·Î ¼³Á¤
-		now->next->prev = now; //now´Â now ´ÙÀ½ ³ëµåÀÇ 'ÀÌÀü' À¸·Î ¼³Á¤
+		now->next = stack->back;//nowì˜ nextë§í¬ë¥¼ í˜„ìž¬ backìœ¼ë¡œ ì„¤ì •
+		now->next->prev = now; //nowëŠ” now ë‹¤ìŒ ë…¸ë“œì˜ 'ì´ì „' ìœ¼ë¡œ ì„¤ì •
 	}
-	now->prev = NULL; //ÀÌÀüÀº NULL
-	stack->back = now;   //½ºÅÃÀÇ backÀº now·Î ¼³Á¤
+	now->prev = NULL; //ì´ì „ì€ NULL
+	stack->back = now;   //ìŠ¤íƒì˜ backì€ nowë¡œ ì„¤ì •
 	stack->size++;
 }
-int Pop(Stack *stack) //¸Ç ¸¶Áö¸· ³ëµå Á¦°Å
+int Pop(Stack *stack) //ë§¨ ë§ˆì§€ë§‰ ë…¸ë“œ ì œê±°
 {
 	Node *now;
 	int re;
@@ -75,34 +75,34 @@ int Pop(Stack *stack) //¸Ç ¸¶Áö¸· ³ëµå Á¦°Å
 	{
 		return -1;
 	}
-	now = stack->top;//now¸¦ topÀ¸·Î ¼³Á¤
-	re = now->data;//²¨³¾ °ªÀº nowÀÇ data·Î ¼³Á¤
+	now = stack->top;//nowë¥¼ topìœ¼ë¡œ ì„¤ì •
+	re = now->data;//êº¼ë‚¼ ê°’ì€ nowì˜ dataë¡œ ì„¤ì •
 
-	stack->top = now->prev;//topÀ» nowÀÇ next·Î ¼³Á¤
-	stack->size--; //size ÁÙÀÓ
-	free(now);//ÇÊ¿ä¾øÀ¸´Ï ¸Þ¸ð¸® ÇØÁ¦
+	stack->top = now->prev;//topì„ nowì˜ nextë¡œ ì„¤ì •
+	stack->size--; //size ì¤„ìž„
+	free(now);//í•„ìš”ì—†ìœ¼ë‹ˆ ë©”ëª¨ë¦¬ í•´ì œ
 	return re;
 }
 int main()
 {
-	int n;//°³¼ö
+	int n;//ê°œìˆ˜
 	int i;
-	char str[10];//¸í·É ¹ÞÀ» ¹®ÀÚ¿­
-	int num; //push¹ÞÀ» 
+	char str[10];//ëª…ë ¹ ë°›ì„ ë¬¸ìžì—´
+	int num; //pushë°›ì„ 
 
 	Stack stack;
-	InitStack(&stack); //stack»ý¼º
+	InitStack(&stack); //stackìƒì„±
 
-	scanf("%d", &n); //¼ýÀÚ ÀÔ·Â
+	scanf("%d", &n); //ìˆ«ìž ìž…ë ¥
 	getchar();
 
-	if ((n >= 1) && (n <= 10000))//¹üÀ§Á¦ÇÑ
+	if ((n >= 1) && (n <= 10000))//ë²”ìœ„ì œí•œ
 	{
 		for (i = 0; i < n; i++)
 		{
 			scanf("%s", str);
 
-			if (!strcmp(str, "push")) //push¿Í °°´Ù¸é
+			if (!strcmp(str, "push")) //pushì™€ ê°™ë‹¤ë©´
 			{
 				scanf("%d", &num);
 				getchar();
@@ -136,4 +136,4 @@ int main()
 		}
 	}
 	return 0;
-}*/
+}
